@@ -14,6 +14,8 @@ mf = search.GPSProblem('M', 'F'
                        , search.romania)
 
 p = [ab, oe, gz, nd, mf]
+nombresc = ["ARAD - BUCHAREST", "ORADEA - EFORIE", "GIURGIU - ZERIND", "NEAMT - DOBRETA", "MEHADIA - FAGRAS"]
+t = 0
 
 for i in p:
     print(search.breadth_first_graph_search(ab).path())
@@ -21,25 +23,26 @@ for i in p:
     print(search.depth_first_graph_search(ab).path())
 
     print("      ")
-    print("Búsqueda de Ramificación y Acotación")
+    print("Búsqueda de Ramificación y Acotación" + " -> " + nombresc[t])
 
     node, gen, vis = search.branch_and_bound_search(i)
 
-    print("Ramificación y Acotación")
+
     print("Generados:", gen)
     print("Visitados:", vis)
     print("Costo total:", node.path_cost)
     print("Ruta:", node.path())
     print("   ")
 
-    print("Búsqueda de Ramificación y Acotación con subestimación")
+    print("Búsqueda de Ramificación y Acotación con subestimación" + " -> " + nombresc[t])
 
     node2, gen2, vis2 = search.branch_and_bound_with_heuristic_search(ab)
 
-    print("Ramificación y Acotación con subestimación")
+
     print("Generados:", gen)
     print("Visitados:", vis)
     print("Costo total:", node.path_cost)
     print("Ruta:", node.path())
     print("")
 
+    t = t+1
