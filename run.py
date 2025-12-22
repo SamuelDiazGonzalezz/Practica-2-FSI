@@ -18,11 +18,30 @@ nombresc = ["ARAD - BUCHAREST", "ORADEA - EFORIE", "GIURGIU - ZERIND", "NEAMT - 
 t = 0
 
 for i in p:
-    print("Bbs dfs" + " -> " + nombresc[t])
-    print(search.breadth_first_graph_search(i).path())
-    print(search.depth_first_graph_search(i).path())
+    print("Amplitud" + " -> " + nombresc[t])
+    node4, gen4, vis4, cost4 = search.breadth_first_graph_search(i)
+
+
+    print("Generados:", gen4)
+    print("Visitados:", vis4)
+    print("Costo total:", cost4)
+    print("Ruta:", node4.path())
+    print("   ")
 
     print("      ")
+
+    print("Profundidad" + " -> " + nombresc[t])
+    node0, gen0, vis0, cost0 = search.depth_first_graph_search(i)
+
+
+    print("Generados:", gen0)
+    print("Visitados:", vis0)
+    print("Costo total:", cost0)
+    print("Ruta:", node0.path())
+    print("   ")
+
+    print("      ")
+
     print("Búsqueda de Ramificación y Acotación" + " -> " + nombresc[t])
 
     node, gen, vis = search.branch_and_bound_search(i)

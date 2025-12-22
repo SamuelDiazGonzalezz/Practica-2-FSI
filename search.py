@@ -95,19 +95,29 @@ class Node:
 ## Uninformed Search algorithms
 
 def graph_search(problem, fringe):
-    """Search through the successors of a problem to find a goal.
-    The argument fringe should be an empty queue.
-    If two paths reach a state, only use the best one. [Fig. 3.18]"""
-    closed = {}
-    fringe.append(Node(problem.initial))
+    closed = set()
+    generated = 0
+    visited = 0
+
+    root = Node(problem.initial)
+    fringe.append(root)
+    generated += 1
+
     while fringe:
         node = fringe.pop()
+        visited += 1
+
         if problem.goal_test(node.state):
-            return node
+            return node, generated, visited, node.path_cost
+
         if node.state not in closed:
-            closed[node.state] = True
-            fringe.extend(node.expand(problem))
-    return None
+            closed.add(node.state)
+            children = node.expand(problem)
+            generated += len(children)
+            fringe.extend(children)
+
+    return None, generated, visited, infinity
+
 
 class PriorityQueue:
     """Cola de prioridad mínima basada en heapq"""
