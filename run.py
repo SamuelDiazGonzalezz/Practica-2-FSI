@@ -36,7 +36,7 @@ for i in p:
 
     print("Búsqueda de Ramificación y Acotación con subestimación" + " -> " + nombresc[t])
 
-    node2, gen2, vis2 = search.branch_and_bound_with_heuristic_search(ab)
+    node2, gen2, vis2 = search.branch_and_bound_with_heuristic_search(i)
 
 
     print("Generados:", gen2)
