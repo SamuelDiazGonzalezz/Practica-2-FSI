@@ -8,7 +8,6 @@ functions."""
 from utils import *
 import random
 import sys
-import heapq
 
 
 # ______________________________________________________________________________
@@ -94,52 +93,37 @@ class Node:
 # ______________________________________________________________________________
 ## Uninformed Search algorithms
 
+# -----------------------------
+# Modificación de graph_search para contar nodos generados
+# -----------------------------
+
 def graph_search(problem, fringe):
-    closed = set()
-    generated = 0
-    visited = 0
+    """Search through the successors of a problem to find a goal.
+    Counts nodes generated (children) instead of nodes extended in the queue."""
+
+    closed = set()        # Conjunto de nodos explorados
+    generated = 1         # Contamos la raíz como generada
+    visited = 0           # Nodos extraídos de la frontera
 
     root = Node(problem.initial)
     fringe.append(root)
-    generated += 1
 
     while fringe:
         node = fringe.pop()
         visited += 1
 
         if problem.goal_test(node.state):
-            return node, generated, visited, node.path_cost
+            return node, generated, visited  # Retornamos métricas
 
         if node.state not in closed:
             closed.add(node.state)
             children = node.expand(problem)
-            generated += len(children)
+            generated += len(children)     # Contamos todos los hijos generados
             fringe.extend(children)
 
-    return None, generated, visited, infinity
+    return None, generated, visited
 
 
-class PriorityQueue:
-    """Cola de prioridad mínima basada en heapq"""
-
-    def __init__(self, order='min', f=lambda x: x):
-        self.f = f
-        self.order = order
-        self.heap = []
-        self.counter = 0
-
-    def append(self, item):
-        if self.order == 'min':
-            heapq.heappush(self.heap, (self.f(item), self.counter, item))
-        else:
-            heapq.heappush(self.heap, (-self.f(item), self.counter, item))
-        self.counter += 1
-
-    def pop(self):
-        return heapq.heappop(self.heap)[2]
-
-    def __len__(self):
-        return len(self.heap)
 
 def breadth_first_graph_search(problem):
     """Search the shallowest nodes in the search tree first. [p 74]"""
@@ -150,62 +134,6 @@ def depth_first_graph_search(problem):
     """Search the deepest nodes in the search tree first. [p 74]"""
     return graph_search(problem, Stack())
 
-def branch_and_bound_search(problem):
-    generated = 0
-    visited = 0
-
-    node = Node(problem.initial)
-    frontier = PriorityQueue(order='min', f=lambda n: n.path_cost)
-    frontier.append(node)
-    generated += 1
-
-    explored = set()
-
-    while frontier:
-        node = frontier.pop()
-        visited += 1
-
-        if problem.goal_test(node.state):
-            return node, generated, visited
-
-        if node.state not in explored:
-            explored.add(node.state)
-            children = node.expand(problem)
-            generated += len(children)
-            for child in children:
-                frontier.append(child)
-
-    return None, generated, visited
-
-def branch_and_bound_with_heuristic_search(problem):
-    generated = 0
-    visited = 0
-
-    node = Node(problem.initial)
-    frontier = PriorityQueue(
-        order='min',
-        f=lambda n: n.path_cost + problem.h(n)
-    )
-    frontier.append(node)
-    generated += 1
-
-    explored = set()
-
-    while frontier:
-        node = frontier.pop()
-        visited += 1
-
-        if problem.goal_test(node.state):
-            return node, generated, visited
-
-        if node.state not in explored:
-            explored.add(node.state)
-            children = node.expand(problem)
-            generated += len(children)
-            for child in children:
-                frontier.append(child)
-
-    return None, generated, visited
 
 
 # _____________________________________________________________________________
@@ -350,3 +278,26 @@ class GPSProblem(Problem):
             return int(distance(locs[node.state], locs[self.goal]))
         else:
             return infinity
+#-----------------------------------------------------------
+
+# Mi código:
+
+def Branch_and_Bound(problem):
+    """Search the fastest way in terms of Node Weights"""
+    Q = OrderedQ()
+    node, generated, visited = graph_search(problem, Q)
+    print("Nodos generados:", Q.nodos_generados())
+    print("Nodos visitados:", Q.nodos_visitados())
+    print("Nodos expandidos:", Q.nodos_expandidos())
+    return node
+
+def Subestimación_Branch_and_Bound(problem):
+    """Search the fastest way in terms of Node Weights with Underestimation"""
+    Q = OrderedQ2(problem)
+    node, generated, visited = graph_search(problem, Q)
+    print("Nodos generados:", Q.nodos_generados())
+    print("Nodos visitados:", Q.nodos_visitados())
+    print("Nodos expandidos:", Q.nodos_expandidos())
+    return node
+
+

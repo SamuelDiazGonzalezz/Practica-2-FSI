@@ -1,10 +1,9 @@
-import math
 
 #______________________________________________________________________________
 # Simple Data Structures: infinity, Dict, Struct
 
 infinity = 1.0e400
-
+import math
 
 def Dict(**entries):
     """Create a dict out of the argument=value arguments.
@@ -552,3 +551,88 @@ Fig = {}
 
 
 
+#-----------------------------------------
+
+# Mi código:
+
+class OrderedQ(Queue):
+    """Cola ordenada de mayor a menor por pesos de nodos.
+       Usado en Branch_and_Bound
+       Ahora cuenta también nodos generados."""
+
+    def __init__(self):
+        self.A = []
+        self.__visited = 0
+        self.__expanded = 0
+        self.__generated = 0  # Nuevo contador de nodos generados
+
+    def pop(self):
+        self.__visited += 1
+        return self.A.pop()
+
+    def append(self, item):
+        self.A.append(item)
+        self.SortByWeigth()
+
+    def extend(self, items):
+        self.__expanded += 1
+        self.__generated += len(items)  # Contamos hijos generados
+        self.A.extend(items)
+        self.SortByWeigth()
+
+    def __len__(self):
+        return len(self.A)
+
+    def SortByWeigth(self):
+        self.A.sort(reverse=True, key=lambda node: node.path_cost)
+
+    def nodos_visitados(self):
+        return self.__visited
+
+    def nodos_expandidos(self):
+        return self.__expanded
+
+    def nodos_generados(self):
+        return self.__generated
+
+
+class OrderedQ2(Queue):
+    """Cola ordenada de mayor a menor por subestimación de nodos.
+       Usado en Subestimación_Branch_and_Bound()
+       Ahora cuenta también nodos generados."""
+
+    def __init__(self, problem):
+        self.A = []
+        self.problem = problem
+        self.__expanded = 0
+        self.__visited = 0
+        self.__generated = 0  # Nuevo contador
+
+    def pop(self):
+        self.__visited += 1
+        return self.A.pop()
+
+    def append(self, item):
+        self.A.append(item)
+        self.SortByUnderestimation()
+
+    def extend(self, items):
+        self.__expanded += 1
+        self.__generated += len(items)  # Contamos hijos generados
+        self.A.extend(items)
+        self.SortByUnderestimation()
+
+    def __len__(self):
+        return len(self.A)
+
+    def SortByUnderestimation(self):
+        self.A.sort(reverse=True, key=lambda node: self.problem.h(node) + node.path_cost)
+
+    def nodos_visitados(self):
+        return self.__visited
+
+    def nodos_expandidos(self):
+        return self.__expanded
+
+    def nodos_generados(self):
+        return self.__generated
