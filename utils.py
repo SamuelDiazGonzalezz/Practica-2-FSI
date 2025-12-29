@@ -557,8 +557,7 @@ Fig = {}
 
 class OrderedQ(Queue):
     """Cola ordenada de mayor a menor por pesos de nodos.
-       Usado en Branch_and_Bound
-       Ahora cuenta también nodos generados."""
+       Usado en Branch_and_Bound."""
 
     def __init__(self):
         self.A = []
@@ -598,8 +597,7 @@ class OrderedQ(Queue):
 
 class OrderedQ2(Queue):
     """Cola ordenada de mayor a menor por subestimación de nodos.
-       Usado en Subestimación_Branch_and_Bound()
-       Ahora cuenta también nodos generados."""
+       Usado en Subestimación_Branch_and_Bound()."""
 
     def __init__(self, problem):
         self.A = []
