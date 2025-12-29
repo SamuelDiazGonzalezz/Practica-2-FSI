@@ -285,13 +285,16 @@ class GPSProblem(Problem):
 def Branch_and_Bound(problem):
     """Search the fastest way in terms of Node Weights"""
     Q = OrderedQ()
+    graph_search(problem, Q)
+    print("Nodos expandidos", Q.nodos_expandidos())
 
     return graph_search(problem, Q)
 
 def Subestimación_Branch_and_Bound(problem):
     """Search the fastest way in terms of Node Weights with Underestimation"""
     Q = OrderedQ2(problem)
-
+    graph_search(problem, Q)
+    print("Nodos expandidos", Q.nodos_expandidos())
 
     return graph_search(problem, Q)
 
