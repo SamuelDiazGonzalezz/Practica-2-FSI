@@ -42,21 +42,23 @@ for i in p:
     print("   ")
 
     print("Búsqueda de Ramificación y Acotación" + " -> " + nombresc[t])
-    node3, gen3, vis3 = search.Branch_and_Bound(i)
+    node, gen, vis, exp = search.Branch_and_Bound(i)
 
-    print("Nodos Generados:", gen3)
-    print("Nodos Visitados:", vis3)
-    print("Costo total:", node3.path_cost)
-    print("Ruta:", node3.path())
+    print("Nodos generados:", gen)
+    print("Nodos visitados:", vis)
+    print("Nodos expandidos:", exp)
+    print("Costo total:", node.path_cost)
+    print("Ruta:", node.path())
     print("   ")
 
     print("Búsqueda de Ramificación y Acotación con subestimación" + " -> " + nombresc[t])
-    node3, gen3, vis3 = search.Subestimación_Branch_and_Bound(i)
+    node , gen , vis, exp = search.Subestimación_Branch_and_Bound(i)
 
-    print("Nodos Generados:", gen3)
-    print("Nodos Visitados:", vis3)
-    print("Costo total:", node3.path_cost)
-    print("Ruta:", node3.path())
+    print("Nodos generados:", gen)
+    print("Nodos visitados:", vis)
+    print("Nodos expandidos:", exp)
+    print("Costo total:", node.path_cost)
+    print("Ruta:", node.path())
     print("   ")
 
     t = t + 1

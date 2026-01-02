@@ -563,7 +563,7 @@ class OrderedQ(Queue):
         self.A = []
         self.__visited = 0
         self.__expanded = 0
-        self.__generated = 0  # Nuevo contador de nodos generados
+        self.__generated = 1  # Nuevo contador de nodos generados
 
     def pop(self):
         self.__visited += 1
